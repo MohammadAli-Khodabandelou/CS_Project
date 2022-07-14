@@ -1,0 +1,11 @@
+from enum import Enum
+
+
+class EServiceType(Enum):
+    MOBILE_GATEWAY = 1
+    WEB_GATEWAY = 2
+    RESTAURANT_MANAGEMENT = 3
+    CUSTOMER_MANAGEMENT = 4
+    ORDER_MANAGEMENT = 5
+    DELIVERY_COMMUNICATION = 6
+    PAYMENT = 7
