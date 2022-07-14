@@ -20,4 +20,3 @@ class Queue:
     def pass_request_to_consumer(self):
         # todo
         pass
-

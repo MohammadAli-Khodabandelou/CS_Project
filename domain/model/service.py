@@ -10,3 +10,4 @@ class Service:
 
     def gen_service_time_teller1(self):
         return -np.log(1 - (np.random.uniform(low=0.0, high=1.0))) * self.service_time_mean
+
