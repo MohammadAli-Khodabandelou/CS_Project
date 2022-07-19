@@ -27,7 +27,7 @@ class MicroService:
                 return s
         return None
 
-    def _process_request(self):
+    def _process_queue(self):
         # Checks if there is an idle instance, then pass a request to the service
         idle_service = self._get_idle_instance()
         if idle_service is not None:
@@ -40,7 +40,19 @@ class MicroService:
             s.update()
             if s.timer.is_finished():
                 request = s.delete_request()
-                self._pass_request_to_next(request)
+                if request is not None:
+                    self._pass_request_to_next(request)
+
+    def _pass_request_to_next(self, request):
+        next_service_type = request.next_service_type
+        if next_service_type is None:
+            # The request has reached to the end of the pipeline
+            del request
+            return
+        for microservice in self.next_microservices:
+            if microservice.service_type.value == next_service_type.value:
+                microservice.push_request(request)
+                break
 
     def add_next_microservice(self, microservice):
         self.next_microservices.append(microservice)
@@ -48,7 +60,18 @@ class MicroService:
     def push_request(self, request: Request):
         # Push a new request to the end of the queue
         self.queue.add_request(request)
-        self._process_request()  # The added request must be processed if there is an idle instance
+        self._process_queue()  # The added request must be processed if there is an idle instance
 
-    def _pass_request_to_next(self, request):
-        pass
+    def update(self):
+        # This method do all necessary functionalities and implements the main logic of the class
+        self._update_instances()
+        self._process_queue()
+
+    def __str__(self):
+        result = ""
+        result += f"Request in queue = {len(self.queue)}\n"
+        for i in range(len(self.instances)):
+            s = self.instances[i]
+            result += f"[Instance {i + 1}]: Is_Idle: {s.is_idle()}, Remaining time = {s.timer.period}\n"
+        return result
+
