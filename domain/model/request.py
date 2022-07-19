@@ -17,3 +17,6 @@ class Request:
         self.request_type = request_type
         self.occurrence_prob = occurrence_prob
         self.order = order
+        self.chain = self.dependency_chain_map[self.request_type]
+
+
