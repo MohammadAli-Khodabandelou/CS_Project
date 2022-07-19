@@ -1,6 +1,6 @@
 class Timer:
-    def __init__(self, period):
-        self.period = period
+    def __init__(self):
+        self.period = 0
 
     def is_finished(self):
         return self.period == 0
