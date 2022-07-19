@@ -4,7 +4,8 @@ from domain.model.service import Service
 
 class Queue:
     def __init__(self):
-        self.queue = []
+        self.high_priority_queue = []
+        self.low_priority_queue = []
         self.producers = []
         self.consumers = []
 
@@ -15,8 +16,21 @@ class Queue:
         self.consumers.append(consumer)
 
     def add_request(self, request: Request):
-        self.queue.append(request)
+        if request.order == 1:
+            self.high_priority_queue.append(request)
+        else:
+            self.low_priority_queue.append(request)
 
     def pass_request_to_consumer(self):
         # todo
         pass
+
+    def __len__(self):
+        return len(self.high_priority_queue) + len(self.low_priority_queue)
+
+    def get_request(self):
+        if len(self.high_priority_queue) > 0:
+            return self.high_priority_queue.pop(0)
+        elif len(self.low_priority_queue) > 0:
+            return self.low_priority_queue.pop(0)
+        return None

@@ -17,3 +17,10 @@ class Request:
         self.request_type = request_type
         self.occurrence_prob = occurrence_prob
         self.order = order
+        self.chain = self.dependency_chain_map.get(self.request_type)
+
+    @property
+    def next_service_type(self):
+        if len(self.chain) == 0:
+            return None
+        return self.chain.pop(0)

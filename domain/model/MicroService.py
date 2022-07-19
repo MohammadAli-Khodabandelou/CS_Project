@@ -32,7 +32,8 @@ class MicroService:
         idle_service = self._get_idle_instance()
         if idle_service is not None:
             request = self.queue.get_request()
-            idle_service.set_request(request)
+            if request is not None:
+                idle_service.set_request(request)
 
     def _update_instances(self):
         # Checks each instance to see if it becomes idle. Passes the request to the next if necessary.
