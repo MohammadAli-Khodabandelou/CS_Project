@@ -29,11 +29,11 @@ class MicroService:
 
     def _process_queue(self):
         # Checks if there is an idle instance, then pass a request to the service
-        idle_service = self._get_idle_instance()
-        if idle_service is not None:
-            request = self.queue.get_request()
-            if request is not None:
-                idle_service.set_request(request)
+        for s in self.instances:
+            if s.is_idle():
+                request = self.queue.get_request()
+                if request is not None:
+                    s.set_request(request)
 
     def _update_instances(self):
         # Checks each instance to see if it becomes idle. Passes the request to the next if necessary.
@@ -48,7 +48,6 @@ class MicroService:
         next_service_type = request.next_service_type
         if next_service_type is None:
             # The request has reached to the end of the pipeline
-            del request
             return
         for microservice in self.next_microservices:
             if microservice.service_type.value == next_service_type.value:
@@ -61,7 +60,6 @@ class MicroService:
     def push_request(self, request: Request):
         # Push a new request to the end of the queue
         self.queue.add_request(request)
-        self._process_queue()  # The added request must be processed if there is an idle instance
 
     def update(self):
         # This method do all necessary functionalities and implements the main logic of the class
@@ -69,7 +67,7 @@ class MicroService:
         self._process_queue()
 
     def __str__(self):
-        result = ""
+        result = f"{self.service_type}\n"
         result += f"Request in queue = {len(self.queue)}\n"
         for i in range(len(self.instances)):
             s = self.instances[i]
