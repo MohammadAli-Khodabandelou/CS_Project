@@ -14,7 +14,8 @@ class Service:
         self.current_request = None
 
     def gen_service_time(self):
-        return -np.log(1 - (np.random.uniform(low=0.0, high=1.0))) * self.service_time_mean
+        # Make sure that the minimum service time is 1
+        return max(1, int(-np.log(1 - (np.random.uniform(low=0.0, high=1.0))) * self.service_time_mean))
 
     def is_idle(self):
         return self.timer.is_finished()
