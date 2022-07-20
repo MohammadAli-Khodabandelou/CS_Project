@@ -1,7 +1,6 @@
 from domain.enumeration import EServiceType
 import numpy as np
 
-from domain.model.queue import Queue
 from domain.model.request import Request
 from domain.utils.timer import Timer
 
