@@ -1,5 +1,4 @@
 from domain.model.request import Request
-from domain.model.service import Service
 
 
 class Queue:
@@ -27,15 +26,26 @@ class Queue:
 
     def update_queue(self):
         # This method checks if each request in the queue is in timeout status. If yes, removes from queue.
+        high_priority_to_delete = []
+        low_priority_to_delete = []
+
         for i in range(len(self.high_priority_queue)):
             r = self.high_priority_queue[i]
             r.timer.tick()
             if r.timer.is_finished():
-                self.high_priority_queue.pop(i)
+                high_priority_to_delete.append(i)
                 # TODO: Change the status of the request to TIMEOUT ?
         for i in range(len(self.low_priority_queue)):
-            r = self.high_priority_queue[i]
+            r = self.low_priority_queue[i]
             r.timer.tick()
             if r.timer.is_finished():
-                self.high_priority_queue.pop(i)
+                low_priority_to_delete.append(i)
                 # TODO: Change the status of the request to TIMEOUT ?
+
+        self.high_priority_queue = [self.high_priority_queue[i]
+                                    for i in range(len(self.high_priority_queue))
+                                    if i not in high_priority_to_delete]
+        self.low_priority_queue = [self.low_priority_queue[i]
+                                   for i in range(len(self.low_priority_queue))
+                                   if i not in low_priority_to_delete]
+

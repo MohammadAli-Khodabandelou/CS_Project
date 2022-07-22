@@ -28,6 +28,8 @@ class MicroService:
         return None
 
     def _process_queue(self):
+        # Update queue to handle timeout functionality
+        self.queue.update_queue()
         # Checks if there is an idle instance, then pass a request to the service
         for s in self.instances:
             if s.is_idle():
