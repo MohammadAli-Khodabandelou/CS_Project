@@ -13,7 +13,7 @@ time = 0
 while time < 50:
     if len(time_intervals) > 0 and time == time_intervals[0]:
         time_intervals = time_intervals[1:]
-        r = Request(ERequestType.ORDER_MONITORING, 0.2, random.randint(1, 3), 2)
+        r = Request(ERequestType.ORDER_MONITORING, 0.2, random.randint(1, 3), random.randint(2, 4))
         microservice1.push_request(r)
     print(time)
     microservice1.update()
