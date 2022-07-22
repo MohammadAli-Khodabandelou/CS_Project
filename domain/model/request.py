@@ -1,5 +1,6 @@
 from domain.enumeration.ERequestType import ERequestType
 from domain.enumeration.EServiceType import EServiceType
+from domain.utils.timer import Timer
 
 
 class Request:
@@ -17,11 +18,18 @@ class Request:
         ERequestType.ORDER_MONITORING: [EServiceType.MOBILE_GATEWAY, EServiceType.ORDER_MANAGEMENT],
     }
 
-    def __init__(self, request_type: ERequestType, occurrence_prob: float, order: int):
+    def __init__(self, request_type: ERequestType, occurrence_prob: float, order: int, waiting_time: int):
         self.request_type = request_type
         self.occurrence_prob = occurrence_prob
         self.chain = (Request.dependency_chain_map[self.request_type])[:]
         self.order = order
+        self.waiting_time = waiting_time
+        self.timer = Timer()
+        self.timer.set_period(waiting_time)
+
+    def reset_timer(self):
+        # When the request is moved to a new service, this method must be called
+        self.timer.set_period(self.waiting_time)
 
     @property
     def next_service_type(self):
