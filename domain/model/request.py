@@ -26,10 +26,14 @@ class Request:
         self.waiting_time = waiting_time
         self.timer = Timer()
         self.timer.set_period(waiting_time)
+        self.timeout = False  # We set this field if the request timeouts.
 
     def reset_timer(self):
         # When the request is moved to a new service, this method must be called
         self.timer.set_period(self.waiting_time)
+
+    def set_timeout(self):
+        self.timeout = True
 
     @property
     def next_service_type(self):
@@ -38,4 +42,3 @@ class Request:
         if len(self.chain) > 0:
             return self.chain[0]
         return None
-
