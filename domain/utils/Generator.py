@@ -17,4 +17,5 @@ class Generator:
                 Request(request_type, self.occurrence_proba[request_type], self.orders[request_type], self.waiting_times[request_type]))
 
     def generate_request_samples(self):
-        return random.choices(list(self.requests), weights=[request.occurrence_prob for request in self.requests], k=self.request_per_second)
+        sample_types = random.choices([request.request_type for request in self.requests], weights=[request.occurrence_prob for request in self.requests], k=self.request_per_second)
+        return [Request(request_type, self.occurrence_proba[request_type], self.orders[request_type], self.waiting_times[request_type]) for request_type in sample_types]

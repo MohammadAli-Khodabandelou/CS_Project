@@ -1,5 +1,6 @@
 from domain.enumeration.ERequestType import ERequestType
 from domain.enumeration.EServiceType import EServiceType
+from domain.model.ServiceGraph import ServiceGraph
 from domain.utils.Generator import Generator
 
 
@@ -69,7 +70,14 @@ class Simulator:
 
     def __init__(self):
         self.generator = Generator(Simulator.request_rate, Simulator.request_probs, Simulator.request_orders, Simulator.request_waiting_times)
+        self.service_graph = ServiceGraph(Simulator.service_time_means, Simulator.instance_numbers, Simulator.error_rates)
+        self.all_requests = []
 
     def simulate(self):
-        self.generator.generate_request_samples()
-        pass
+        for time in range(Simulator.simulation_time + 1):
+            samples = self.generator.generate_request_samples()
+            self.all_requests.__add__(samples)
+            self.service_graph.push_request(samples)
+            self.service_graph.update()
+            if time % 1000 == 0:
+                print(f'time: {time}\n{self.service_graph}\n\n')
