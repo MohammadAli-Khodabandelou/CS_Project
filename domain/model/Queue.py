@@ -32,11 +32,13 @@ class Queue:
         for i in range(len(self.high_priority_queue)):
             r = self.high_priority_queue[i]
             r.timer.tick()
+            r.time_in_queue += 1
             if r.timer.is_finished():
                 high_priority_to_delete.append(i)
                 r.set_timeout()
         for i in range(len(self.low_priority_queue)):
             r = self.low_priority_queue[i]
+            r.time_in_queue += 1
             r.timer.tick()
             if r.timer.is_finished():
                 low_priority_to_delete.append(i)
