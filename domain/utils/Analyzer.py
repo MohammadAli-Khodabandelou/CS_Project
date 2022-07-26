@@ -6,6 +6,7 @@ class Analyzer:
     def __init__(self, simulator):
         self.requests = simulator.all_requests
         self.service_graph = simulator.service_graph
+        self.simulation_time = simulator.simulation_time
 
     def analyze_mean_queue_length(self):
         for ms in self.service_graph.micro_services:
@@ -27,7 +28,10 @@ class Analyzer:
             plt.show()
 
     def analyze_utilization(self):
-        pass
+        for ms in self.service_graph.micro_services:
+            print(f'{ms.service_type}:')
+            for i in range(len(ms.instances)):
+                print(f'\t[INSTANCE {i + 1}] utilization = {ms.instances[i].busy_time / self.simulation_time}')
 
     def analyze_timed_out_requests(self):
         pass

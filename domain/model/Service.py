@@ -12,6 +12,7 @@ class Service:
         self.error_rate = error_rate
         self.timer = Timer()
         self.current_request = None
+        self.busy_time = 0
 
     def gen_service_time(self):
         # Make sure that the minimum service time is 1
@@ -33,3 +34,6 @@ class Service:
     def update(self):
         # Update the timer
         self.timer.tick()
+        # Update busy_time if necessary
+        if not self.is_idle():
+            self.busy_time += 1
