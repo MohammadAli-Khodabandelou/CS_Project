@@ -76,7 +76,7 @@ class Simulator:
     def simulate(self):
         for time in range(Simulator.simulation_time + 1):
             samples = self.generator.generate_request_samples()
-            self.all_requests.__add__(samples)
+            self.all_requests = self.all_requests.__add__(samples)
             self.service_graph.push_request(samples)
             self.service_graph.update()
             if time % 1000 == 0:
