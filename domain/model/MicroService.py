@@ -14,6 +14,8 @@ class MicroService:
         self.instance_count = instance_count
         self.instances = self._make_instances(service_time_mean, error_rate)
 
+        self.queue_lengths = []
+
     def _make_instances(self, mean, error_rate):
         result = []
         for i in range(self.instance_count):
@@ -67,6 +69,7 @@ class MicroService:
         # This method do all necessary functionalities and implements the main logic of the class
         self._update_instances()
         self._process_queue()
+        self.queue_lengths.append(len(self.queue))
 
     def __str__(self):
         result = f"{self.service_type}\n"
