@@ -1,4 +1,4 @@
-from domain.model.request import Request
+from domain.model.Request import Request
 
 
 class Queue:

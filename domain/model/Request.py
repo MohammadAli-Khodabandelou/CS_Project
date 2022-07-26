@@ -27,6 +27,8 @@ class Request:
         self.timer = Timer()
         self.timer.set_period(waiting_time)
         self.timeout = False  # We set this field if the request timeouts.
+        self.error = False
+        self.time_in_queue = 0
 
     def reset_timer(self):
         # When the request is moved to a new service, this method must be called

@@ -1,5 +1,6 @@
 from domain.enumeration.ERequestType import ERequestType
 from domain.enumeration.EServiceType import EServiceType
+from domain.utils.Generator import Generator
 
 
 class Simulator:
@@ -34,13 +35,13 @@ class Simulator:
     }
 
     request_probs = {
-        ERequestType.ORDER_REQUEST_MOBILE: 0.2,
-        ERequestType.ORDER_REQUEST_WEB: 0.1,
-        ERequestType.MESSAGE_TO_DELIVERY: 0.05,
-        ERequestType.INFORMATION_REQUEST_MOBILE: 0.25,
-        ERequestType.INFORMATION_REQUEST_WEB: 0.15,
-        ERequestType.DELIVERY_REQUEST: 0.2,
-        ERequestType.ORDER_MONITORING: 0.05
+        ERequestType.ORDER_REQUEST_MOBILE: 20,
+        ERequestType.ORDER_REQUEST_WEB: 10,
+        ERequestType.MESSAGE_TO_DELIVERY: 5,
+        ERequestType.INFORMATION_REQUEST_MOBILE: 25,
+        ERequestType.INFORMATION_REQUEST_WEB: 15,
+        ERequestType.DELIVERY_REQUEST: 20,
+        ERequestType.ORDER_MONITORING: 5
     }
 
     request_orders = {
@@ -67,4 +68,8 @@ class Simulator:
     simulation_time = 28800
 
     def __init__(self):
+        self.generator = Generator(Simulator.request_rate, Simulator.request_probs, Simulator.request_orders, Simulator.request_waiting_times)
+
+    def simulate(self):
+        self.generator.generate_request_samples()
         pass

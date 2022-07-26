@@ -3,7 +3,7 @@ import random
 from domain.enumeration.ERequestType import ERequestType
 from domain.enumeration.EServiceType import EServiceType
 from domain.model.MicroService import MicroService
-from domain.model.request import Request
+from domain.model.Request import Request
 
 microservice1 = MicroService(EServiceType.MOBILE_GATEWAY, 4, 0, 2)
 microservice2 = MicroService(EServiceType.ORDER_MANAGEMENT, 7, 0, 2)

@@ -1,6 +1,6 @@
-from domain.model.queue import Queue
-from domain.model.request import Request
-from domain.model.service import Service
+from domain.model.Queue import Queue
+from domain.model.Request import Request
+from domain.model.Service import Service
 
 
 class MicroService:
