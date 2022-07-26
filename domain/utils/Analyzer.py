@@ -34,4 +34,5 @@ class Analyzer:
                 print(f'\t[INSTANCE {i + 1}] utilization = {ms.instances[i].busy_time / self.simulation_time}')
 
     def analyze_timed_out_requests(self):
-        pass
+        timed_out_count = len(list(filter(lambda r: r.timeout is True, self.requests)))
+        print(f'Timeout requests percentage = {timed_out_count / len(self.requests)}')
